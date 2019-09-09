@@ -6,7 +6,18 @@ before_install:
  - docker build -t asawin/react-test -f ./client/Dockerfile.dev ./client
 
 script:
- - docker run asawin/react-test npm test -- --coverage
+ - docker run -e CI=true asawin/react-test npm test
 
 after_success:
  - docker build -t asawin/multi-client ./client
+ - docker build -t asawin/multi-nginx ./nginx
+ - docker build -t asawin/multi-server ./server
+ - docker build -t asawin/multi-worker ./worker
+
+ ##Login to docker cli
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+ ## Push image to Docker Hub
+ - docker push asawin/multi-client
+ - docker push asawin/multi-nginx
+ - docker push asawin/multi-server
+ - docker push asawin/multi-worker
