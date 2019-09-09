@@ -10,4 +10,15 @@ script:
 
 after_success:
  - docker build -t asawin11/multi-client ./client
+ - docker build -t asawin11/multi-nginx ./nginx
+ - docker build -t asawin11/multi-server ./server
+ - docker build -t asawin11/multi-worker ./worker
+
+ ##Login to docker cli
+ - docker login --username asawin11 --password Ee_205570
+ ## Push image to Docker Hub
+ - docker push asawin11/multi-client
+ - docker push asawin11/multi-nginx
+ - docker push asawin11/multi-server
+ - docker push asawin11/multi-worker
 
