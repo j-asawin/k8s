@@ -1,0 +1,12 @@
+sudo: required
+services:
+ - docker
+
+before_install:
+ - docker build -t asawin/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+ - docker run asawin/react-test npm test -- --coverage
+
+after_success:
+ - docker build -t asawin/multi-client ./client
